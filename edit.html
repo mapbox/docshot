@@ -65,6 +65,7 @@ chrome.extension && chrome.extension.onRequest.addListener(function(image) {
 });
 $(function() {
   $('a[href=#save]').click(function() {
+    $('#toolbar').hide();
     chrome.extension.sendRequest({ action: 'capture' });
     return false;
   });
