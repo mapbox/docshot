@@ -1,17 +1,19 @@
-var tab;
+var tabid;
 chrome.browserAction.onClicked.addListener(function(tab) {
   chrome.windows.getCurrent(function (win) {
     chrome.tabs.captureVisibleTab(win.id, {format:'png'}, function(image) {
       chrome.tabs.create({'url':'edit.html'}, function(t) {
-        chrome.tabs.sendRequest(t.id, image);
+        tabid = t.id;
+        // Slight delay to allow tab time to add listener.
+        setTimeout(function() { chrome.tabs.sendMessage(tabid, image); }, 100);
       });
     });
   });
 });
-chrome.extension.onRequest.addListener(function(e) {
+chrome.extension.onMessage.addListener(function(e) {
   chrome.windows.getCurrent(function (win) {
     chrome.tabs.captureVisibleTab(win.id, {format:'png'}, function(image) {
-      chrome.tabs.sendRequest(tab.id, image);
+      chrome.tabs.sendMessage(tabid, image);
     });
   });
 });

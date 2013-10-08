@@ -1,5 +1,5 @@
 var init = true;
-chrome.extension && chrome.extension.onRequest.addListener(function(image) {
+chrome.extension && chrome.extension.onMessage.addListener(function(image) {
   if (init) {
     init = false;
     document.getElementById('base').style.backgroundImage = 'url('+image+')';
@@ -35,7 +35,7 @@ chrome.extension && chrome.extension.onRequest.addListener(function(image) {
 $(function() {
   $('a[href=#save]').click(function() {
     $('#toolbar').hide();
-    chrome.extension.sendRequest({ action: 'capture' });
+    chrome.extension.sendMessage({ action: 'capture' });
     return false;
   });
   $('a[href=#close]').click(function() {
